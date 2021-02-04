@@ -13,7 +13,7 @@ import {
   loginMutationVariables,
 } from "../__generated__/loginMutation";
 
-const LOGIN_MUTATION = gql`
+export const LOGIN_MUTATION = gql`
   mutation loginMutation($loginInput: LoginInput!) {
     login(input: $loginInput) {
       ok
@@ -48,6 +48,7 @@ export const Login = () => {
       isLoggedInVar(true);
     }
   };
+
   const [loginMutation, { data: loginMutationResult, loading }] = useMutation<
     loginMutation,
     loginMutationVariables
@@ -70,7 +71,7 @@ export const Login = () => {
   return (
     <div className="h-screen flex items-center flex-col mt-10 lg:mt-28">
       <Helmet>
-        <title>Login | Nuber Eats</title>
+        <title>Login | Uber Eats</title>
       </Helmet>
       <div className="w-full max-w-screen-sm flex flex-col px-5 items-center">
         <img src={nuberLogo} alt="logo" className="w-52 mb-10" />
@@ -92,14 +93,14 @@ export const Login = () => {
             placeholder="Email"
             className="input"
           />
+          {errors.email?.type === "pattern" && (
+            <FormError errorMessage={"Please enter a valid email"} />
+          )}
           {errors.email?.message && (
             <FormError errorMessage={errors.email?.message} />
           )}
-          {errors.email?.type === "pattern" && (
-            <FormError errorMessage={"Please enter a vaild email"} />
-          )}
           <input
-            ref={register({ required: "Password is required", minLength: 5 })}
+            ref={register({ required: "Password is required" })}
             required
             name="password"
             type="password"
@@ -109,9 +110,7 @@ export const Login = () => {
           {errors.password?.message && (
             <FormError errorMessage={errors.password?.message} />
           )}
-          {errors.password?.type === "minLength" && (
-            <FormError errorMessage="Password must be more than 10 chars." />
-          )}
+
           <Button
             canClick={formState.isValid}
             loading={loading}

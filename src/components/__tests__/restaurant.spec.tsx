@@ -18,5 +18,9 @@ describe("<Restaurant />", () => {
     );
     getByText(restaurantProps.name);
     getByText(restaurantProps.categoryName);
+    expect(container.firstChild).toHaveAttribute(
+      "href",
+      `/restaurants/${restaurantProps.id}`
+    );
   });
 });
